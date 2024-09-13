@@ -1,0 +1,113 @@
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.navbar {
+  position: fixed;  /* Make navbar fixed */
+  top: 0;  /* Stick to the top */
+  width: 100%;  /* Take up full width */
+  background-color: #ffffff; /* White background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  border-bottom: 1px solid #e5e5e5;
+  z-index: 1000;  /* Ensure it's on top of other elements */
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: 1200px;
+}
+
+.navbar-logo .logo-link {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333333; /* Dark text color */
+  text-decoration: none;
+  margin-right: auto;  /* Pushes all other items to the right */
+}
+
+.navbar-menu {
+  display: flex;
+  list-style: none;
+  margin-right: 20px; /* Space before icons start */
+}
+
+.navbar-item {
+  margin-left: 30px;
+}
+
+.navbar-link {
+  font-size: 16px;
+  color: #333333; /* Dark text */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.navbar-link:hover {
+  color: #007BFF; /* Hover color - blue */
+}
+
+.navbar-icons {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-icon {
+  margin-left: 20px;
+  font-size: 24px; /* Increased font size for larger icons */
+  color: #333333; /* Icon color */
+  text-decoration: none;
+}
+
+.navbar-icon i {
+  transition: color 0.3s ease;
+}
+
+.navbar-icon:hover i {
+  color: #007BFF; /* Icon hover color - blue */
+}
+
+.home-container {
+  padding-top: 100px;  /* Add padding to avoid content hiding under navbar */
+  display: flex;
+  flex-direction: column;  /* Stack elements vertically */
+  align-items: center;  /* Center-align the content */
+  padding: 20px;
+}
+.navbar .dropdown-menu {
+  position: absolute;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  top: 58px;  
+  z-index: 1001;  
+}
+
+.dropdown-menu button {
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: left;
+}
+
+.dropdown-menu button:hover {
+  background-color: #f8f8f8;
+}

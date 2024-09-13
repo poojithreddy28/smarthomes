@@ -1,0 +1,88 @@
+/* Reset styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-image: url(../assets/smarthomes_image.jpeg); /* Replace with your image */
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+}
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.register-box {
+  background-color: rgba(255, 255, 255, 0.9);  /* Slightly transparent white */
+  padding: 60px;  /* Increased padding for a larger feel */
+  border-radius: 15px;  /* Larger rounded corners */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  width: 400px;  /* Increased width for a broader feel */
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 28px;  /* Slightly larger font size */
+  color: #333;  /* Dark text color */
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input {
+  width: 100%;
+  padding: 15px;  /* Increased padding for input fields */
+  border: 2px solid #333;  /* Dark border */
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  font-size: 16px;
+}
+
+input:focus {
+  border-color: #007BFF;  /* Blue border on focus */
+  outline: none;
+}
+
+.password-options {
+  margin-top: 10px;
+}
+
+.register-button {
+  width: 100%;
+  padding: 15px;  /* Increased padding for a larger button */
+  background-color: #333;  /* Dark background */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;  /* Larger font size */
+  cursor: pointer;
+}
+
+.register-button:hover {
+  background-color: #007BFF;  /* Blue background on hover */
+}
+
+.login-text {
+  margin-top: 20px;
+}
+
+.login-text a {
+  color: #007B
+}
