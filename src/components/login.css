@@ -1,8 +1,10 @@
+
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background: linear-gradient(135deg, #000000, #22282e); /* From black to blue */
 }
 
 .login-box {

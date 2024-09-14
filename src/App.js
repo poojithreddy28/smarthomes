@@ -4,7 +4,7 @@ import './App.css';
 import Login from './components/login';
 import Home from './components/home';  // We will create this next
 import Register from './components/register';  // Another page for new customers to register
-import SmartDoorbells from './components/SmartDoorbells';  // A page for smart doorbells
+import CheckoutPage from './components/checkoutpage';  // A page for the cart
 function App() {
   return (
     <Router>
@@ -13,7 +13,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/home/doorbells" element={<SmartDoorbells />} />
+        <Route path="/cart" element={<CheckoutPage />} />
       </Routes>
     </Router>
   );

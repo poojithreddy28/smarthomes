@@ -1,19 +1,18 @@
 /* home.css */
 
 .home-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
-    background-color: #f8f8f8; /* Light grey background for subtle contrast */
-  }
+  height: 100vh; /* Full viewport height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 20px; /* Optional padding for better spacing */
+  box-sizing: border-box; /* Ensure padding is included in the total width/height */
+  /* width: 100%; Full width */
+  background-color:white;
+}
   
   h1 {
     font-size: 3rem; /* Large text for heading */
     color: #333; /* Dark grey for text to ensure good readability */
-    margin-top: 20px;
+    margin-top: 120px;
     margin-bottom: 10px;
   }
   
@@ -23,7 +22,11 @@
     max-width: 600px; /* Ensures the text is not too wide for easy reading */
     line-height: 1.6; /* Improves readability */
   }
-  
+  .home-user {
+    margin-top: 0px;
+    color: #007bff;
+  }
+
   /* Add a hover effect to links for a dynamic feel */
   a {
     color: #007bff; /* Bright blue for links, making them stand out */

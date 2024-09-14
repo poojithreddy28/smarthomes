@@ -1,36 +1,91 @@
-import React from 'react';
-import './productcategories.css';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
-
-// Import images for categories
-import doorbellImage from '../assets/smart_doorbell.jpeg';
-import doorlockImage from '../assets/product_image_2.jpeg';
-import speakerImage from '../assets/product_image_3.jpeg';
-import lightingImage from '../assets/product_image_4.jpeg';
-import thermostatImage from '../assets/product_image_5.jpeg';
+import React, { useState, useEffect } from 'react';
+import './productcategories.css'; // Ensure you have the corresponding CSS file for styling
+import axios from 'axios'; // Axios for API requests
 
 const ProductCategories = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [products, setProducts] = useState([]); // State to store products
+  const [selectedCategory, setSelectedCategory] = useState('All Products'); // State for active category
 
+  // Fetch products based on the selected category
+  const fetchProducts = async (category) => {
+    try {
+      // If category is 'All Products', fetch all products; otherwise, fetch products by category
+      const url = category === 'All Products' 
+        ? 'http://localhost:8080/smarthomes_backend/products' 
+        : `http://localhost:8080/smarthomes_backend/products?category=${encodeURIComponent(category)}`;
+      
+      const response = await axios.get(url);
+      setProducts(response.data);
+    } catch (error) {
+      console.error('Error fetching product data:', error);
+    }
+  };
+
+  // Fetch products on mount and when category changes
+  useEffect(() => {
+    fetchProducts(selectedCategory);
+  }, [selectedCategory]);
+
+  // Categories to filter products
   const categories = [
-    { name: 'Smart Doorbells', image: doorbellImage, route: 'home/doorbells' },
-    { name: 'Smart Doorlocks', image: doorlockImage, route: 'home/doorlocks' },
-    { name: 'Smart Speakers', image: speakerImage, route: 'home/speakers' },
-    { name: 'Smart Lightings', image: lightingImage, route: 'home/lightings' },
-    { name: 'Smart Thermostats', image: thermostatImage, route: 'home/thermostats' }
+    { name: 'All Products', folder: 'all' },
+    { name: 'Smart Doorbells', folder: 'smartdoorbells' },
+    { name: 'Smart Doorlocks', folder: 'smartdoorlocks' },
+    { name: 'Smart Speakers', folder: 'smartspeakers' },
+    { name: 'Smart Lightings', folder: 'smartbulbs' },
+    { name: 'Smart Thermostats', folder: 'smartthermostats' }
   ];
 
+  // Handle category change
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category.name);
+  };
+
+  // Handle add to cart functionality
+  const handleAddToCart = async (product) => {
+    try {
+      const response = await axios.post('http://localhost:8080/smarthomes_backend/cart', { productName: product.name });
+      console.log(response.data.message); // Log response from the server
+    } catch (error) {
+      console.error('Error adding product to cart:', error);
+    }
+  };
+
   return (
-    <div className="categories-container">
-      <h2>Our Product Categories</h2>
-      <div className="categories-grid">
-        {categories.map((category, index) => (
-          <div className="category-card" key={index} onClick={() => navigate(category.route)}>
-            <h3>{category.name}</h3>
-            <img src={category.image} alt={category.name} className="category-image" />
-            <button>Explore</button>
-          </div>
-        ))}
+    <div className="categories-wrapper">
+      <div className="categories-container">
+        {/* Category Header */}
+        <div className="categories-header">
+          {categories.map((category, index) => (
+            <span
+              key={index}
+              className={`category-item ${selectedCategory === category.name ? 'active' : ''}`}
+              onClick={() => handleCategoryChange(category)}
+            >
+              {category.name}
+            </span>
+          ))}
+        </div>
+
+        {/* Products Grid */}
+        <div className="products-grid">
+          {products.map((product, index) => (
+            <div key={index} className="product-card">
+              <img
+                src={`/images/${categories.find(c => c.name === selectedCategory).folder}/${product.name}.jpeg`}
+                alt={product.name}
+                className="product-image"
+              />
+              <div className="product-info">
+                <h3>{product.name}</h3>
+                <p>Price: ${product.price}</p>
+                <button className="add-to-cart-button" onClick={() => handleAddToCart(product)}>
+                  <i className="fas fa-cart-plus"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
