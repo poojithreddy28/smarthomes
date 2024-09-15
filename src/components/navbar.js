@@ -6,8 +6,7 @@ const Navbar = ({ username }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Clear username on logout (you could also handle session clearing on the server)
-    navigate('/login'); // Redirect to the login page
+    navigate('/login'); // Redirect to the login page on logout
   };
 
   return (
@@ -32,7 +31,8 @@ const Navbar = ({ username }) => {
               <i className="fas fa-sign-in-alt"> Login</i>
             </Link>
           )}
-          <Link to="/cart" className="navbar-icon">
+          {/* Pass username as a query parameter */}
+          <Link to={`/cart?username=${username}`} className="navbar-icon">
             <i className="fas fa-shopping-cart"></i>
           </Link>
         </div>

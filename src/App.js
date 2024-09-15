@@ -4,7 +4,8 @@ import './App.css';
 import Login from './components/login';
 import Home from './components/home';  // We will create this next
 import Register from './components/register';  // Another page for new customers to register
-import CheckoutPage from './components/checkoutpage';  // A page for the cart
+import Cart from './components/cart';  // Page for displaying the cart
+
 function App() {
   return (
     <Router>
@@ -13,7 +14,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/cart" element={<CheckoutPage />} />
+        <Route path="/cart" element={<Cart />} />
+        
       </Routes>
     </Router>
   );
