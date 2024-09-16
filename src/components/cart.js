@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';  // Import useNavigate
 import './cart.css';
 
 const Cart = () => {
   const location = useLocation();
+  const navigate = useNavigate(); // Initialize navigation
 
   // Extract username from query params
   const queryParams = new URLSearchParams(location.search);
@@ -13,6 +14,7 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
+  // Fetch cart items from the backend
   const fetchCartItems = useCallback(async () => {
     if (!username) {
       console.error("No username found in Cart.js");
@@ -32,9 +34,30 @@ const Cart = () => {
     }
   }, [username]);
 
+  // Delete item from cart
+  const deleteCartItem = async (productName) => {
+    try {
+      const response = await axios.delete('http://localhost:8080/smarthomes_backend/cart', {
+        data: {
+          username: username,
+          productName: productName,
+        },
+      });
+      if (response.status === 200) {
+        fetchCartItems(); // Re-fetch the cart items after successful deletion
+      }
+    } catch (error) {
+      console.error('Error deleting cart item:', error);
+    }
+  };
+
   useEffect(() => {
     fetchCartItems();
   }, [fetchCartItems]);
+
+  const proceedToCheckout = () => {
+    navigate(`/checkout?username=${username}`); // Navigate to checkout page
+  };
 
   return (
     <div className="cart-container">
@@ -45,12 +68,30 @@ const Cart = () => {
         <div>
           <ul>
             {cartItems.map((item, index) => (
-              <li key={index}>
-                <p>{item.productName} - ${item.price} x {item.quantity}</p>
+              <li key={index} className="cart-item">
+                <img 
+                  src={`/images/All/${item.productName}.jpeg`} 
+                  alt={item.productName} 
+                  className="cart-item-image"
+                />
+                <div className="cart-item-info">
+                  <h3>{item.productName}</h3>
+                  <p>${item.price} x {item.quantity}</p>
+                </div>
+                <button
+                  className="delete-button"
+                  onClick={() => deleteCartItem(item.productName)}
+                >
+                  Delete
+                </button>
               </li>
             ))}
           </ul>
-          <h3>Total Price: ${totalPrice.toFixed(2)}</h3>
+          <h3 className="cart-total">Total Price: ${totalPrice.toFixed(2)}</h3>
+          {/* Proceed to Checkout Button */}
+          <button className="checkout-button-cart" onClick={proceedToCheckout}>
+            Proceed to Checkout
+          </button>
         </div>
       )}
     </div>

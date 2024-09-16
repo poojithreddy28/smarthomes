@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import './checkout.css';
+import Navbar from './navbar';
 
 const Checkout = () => {
-  // Extract the username from query parameters (assuming it's passed in the URL)
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const username = queryParams.get('username');  // Get the username from URL
-  console.log('Username:', username);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -25,6 +24,9 @@ const Checkout = () => {
     shippingMethod: 'Home Delivery',
     storeLocation: '' // New field for in-store pickup
   });
+
+  const [orderStatus, setOrderStatus] = useState('Place Order');  // Track order status
+  const [isOrderPlaced, setIsOrderPlaced] = useState(false); // Flag to handle order placed
 
   const storeLocations = [
     { zip: '60601', location: 'Downtown Chicago' },
@@ -49,27 +51,27 @@ const Checkout = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Prepare order data with username
     const orderData = {
       username: username,  // Include the username
       ...formData,         // Include all form fields
     };
 
-    // Handle form submission logic (e.g., send data to backend)
-    console.log('Order Placed:', orderData);
-
-    // Example: Sending data to backend using axios (you should replace this with your backend API endpoint)
+    // Sending data to backend using axios
     axios.post('http://localhost:8080/smarthomes_backend/place_order', orderData)
       .then(response => {
         console.log('Order successful:', response.data);
+        setOrderStatus('Order Placed Successfully');  // Change button text to show success
+        setIsOrderPlaced(true);  // Disable button after order is placed
       })
       .catch(error => {
         console.error('Error placing order:', error);
+        setOrderStatus('Failed to Place Order'); // Update on failure
       });
   };
 
   return (
     <div className="checkout-container">
+      <Navbar username={username} />
       <h2>CheckOut</h2>
       <form onSubmit={handleSubmit} className="checkout-form">
         <div className="form-group">
@@ -101,7 +103,7 @@ const Checkout = () => {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            placeholder="+48"
+            placeholder="+1"
             required
           />
         </div>
@@ -112,7 +114,7 @@ const Checkout = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="storename@example.com"
+            placeholder="user@gmail.com"
             required
           />
         </div>
@@ -220,7 +222,6 @@ const Checkout = () => {
           </div>
         </div>
 
-        {/* Conditionally show dropdown for InStore Pickup */}
         {formData.shippingMethod === 'InStore Pickup' && (
           <div className="form-group">
             <label>Select Store Location</label>
@@ -240,8 +241,13 @@ const Checkout = () => {
           </div>
         )}
 
-        <button type="submit" className="checkout-button">Place Order</button>
-        <button type="button" className="cancel-button">Cancel</button>
+        <button
+          type="submit"
+          className="checkout-button"
+          disabled={isOrderPlaced}  // Disable the button if the order is placed
+        >
+          {orderStatus}
+        </button>
       </form>
     </div>
   );
