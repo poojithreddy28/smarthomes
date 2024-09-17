@@ -6,6 +6,7 @@ const Navbar = ({ username }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    // Here you could also clear session data or token if needed
     navigate('/login'); // Redirect to the login page on logout
   };
 
@@ -13,17 +14,46 @@ const Navbar = ({ username }) => {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-logo">
-          <Link to="/" className="logo-link">SmartHomes</Link>
+          {/* Include username as a query parameter in Home link */}
+          <Link to={`/?username=${username}`} className="logo-link">
+            SmartHomes
+            <img src={`/images/logo.png`} alt="SmartHomes Logo" className="logo-image" />
+          </Link>
         </div>
+
         <ul className="navbar-menu">
-          <li className="navbar-item"><Link to="/" className="navbar-link">Home</Link></li>
-          <li className="navbar-item"><Link to="/about" className="navbar-link">About Us</Link></li>
-          <li className="navbar-item"><Link to="/contact" className="navbar-link">Contact</Link></li>
-          <li className="navbar-item"><Link to="/orders" className="navbar-link">View Orders</Link></li>
+          {/* Home link */}
+          <li className="navbar-item">
+            <Link to={`/?username=${username}`} className="navbar-link">
+              Home
+            </Link>
+          </li>
+          {/* About Us link */}
+          <li className="navbar-item">
+            <Link to="/about" className="navbar-link">
+              About Us
+            </Link>
+          </li>
+          {/* Contact link */}
+          <li className="navbar-item">
+            <Link to="/contact" className="navbar-link">
+              Contact
+            </Link>
+          </li>
+          {/* View Orders link, conditionally include username */}
+          {username && (
+            <li className="navbar-item">
+              <Link to={`/vieworders?username=${username}`} className="navbar-link">
+                View Orders
+              </Link>
+            </li>
+          )}
         </ul>
+
         <div className="navbar-icons">
+          {/* Display logout if logged in, otherwise show login */}
           {username ? (
-            <div onClick={handleLogout} className="navbar-icon">
+            <div onClick={handleLogout} className="navbar-icon logout-button">
               <i className="fas fa-sign-out-alt"> Logout</i>
             </div>
           ) : (
@@ -31,10 +61,13 @@ const Navbar = ({ username }) => {
               <i className="fas fa-sign-in-alt"> Login</i>
             </Link>
           )}
-          {/* Pass username as a query parameter */}
-          <Link to={`/cart?username=${username}`} className="navbar-icon">
-            <i className="fas fa-shopping-cart"></i>
-          </Link>
+
+          {/* Cart link, conditionally include username */}
+          {username && (
+            <Link to={`/cart?username=${username}`} className="navbar-icon">
+              <i className="fas fa-shopping-cart"></i>
+            </Link>
+          )}
         </div>
       </div>
     </nav>
@@ -42,3 +75,4 @@ const Navbar = ({ username }) => {
 };
 
 export default Navbar;
+  

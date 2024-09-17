@@ -6,6 +6,7 @@ import Home from './components/home';  // We will create this next
 import Register from './components/register';  // Another page for new customers to register
 import Cart from './components/cart';  // Page for displaying the cart
 import Checkout from './components/checkout';  // Page for checkout
+import Order from './components/orders';  // Page for viewing orders
 
 function App() {
   return (
@@ -16,8 +17,10 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route path="checkout" element={<Checkout />} />
+        <Route path="/vieworders" element={<Order />} />
         
+  
       </Routes>
     </Router>
   );

@@ -10,6 +10,7 @@ import Footer from './footer';
 const Home = () => {
   const location = useLocation(); // Get location object
   const { username } = location.state || {}; // Extract username from location state
+  
 
   return (
     <div className="home-container">

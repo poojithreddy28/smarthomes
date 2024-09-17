@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './productcategories.css';
 import axios from 'axios';
 
-const ProductCategories = ({ username }) => { 
+const ProductCategories = ({ username }) => {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All Products');
   const [quantity, setQuantity] = useState({}); // Tracks quantity of each product
@@ -35,7 +35,7 @@ const ProductCategories = ({ username }) => {
   // Fetch products when the component mounts or when selectedCategory changes
   useEffect(() => {
     fetchProducts(selectedCategory);
-  }, [selectedCategory]);  
+  }, [selectedCategory]);
 
   // Handle category change
   const handleCategoryChange = (category) => {
@@ -46,14 +46,14 @@ const ProductCategories = ({ username }) => {
   const handleQuantityChange = (product, change) => {
     const newQuantity = { ...quantity };
     newQuantity[product.name] = (newQuantity[product.name] || 0) + change;
-    if (newQuantity[product.name] < 0) newQuantity[product.name] = 0; // Prevent negative quantity
+    if (newQuantity[product.name] < 1) newQuantity[product.name] = 1; // Prevent 0 or negative quantity
     setQuantity(newQuantity);
   };
 
   // Handle adding product to cart
   const handleAddToCart = async (product) => {
     try {
-      const selectedQuantity = quantity[product.name] || 1;
+      const selectedQuantity = quantity[product.name] || 1; // Default to 1 if no quantity is set
       const response = await axios.post('http://localhost:8080/smarthomes_backend/cart', {
         username,
         productName: product.name,
@@ -117,7 +117,11 @@ const ProductCategories = ({ username }) => {
                   <span>{quantity[product.name] || 1}</span>
                   <button onClick={() => handleQuantityChange(product, 1)}>+</button>
                 </div>
-                <button className="add-to-cart-button" onClick={() => handleAddToCart(product)}>
+                <button
+                  className="add-to-cart-button"
+                  onClick={() => handleAddToCart(product)}
+                  disabled={quantity[product.name] === 0}
+                >
                   <i className="fas fa-cart-plus"></i> Add to Cart
                 </button>
               </div>

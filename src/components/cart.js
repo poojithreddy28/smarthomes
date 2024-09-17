@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';  // Import useNavigate
 import './cart.css';
+import Navbar from './navbar';
 
 const Cart = () => {
   const location = useLocation();
@@ -61,6 +62,7 @@ const Cart = () => {
 
   return (
     <div className="cart-container">
+       <Navbar username={username} />
       <h2>Your Cart</h2>
       {cartItems.length === 0 ? (
         <p>Your cart is empty!</p>

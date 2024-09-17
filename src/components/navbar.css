@@ -29,11 +29,16 @@ body {
   width: 90%;
   max-width: 1200px;
 }
-
+.logo-image {
+  height: 40px; /* Adjust the height as needed */
+  width: auto;  /* Keep the aspect ratio intact */
+  margin-right: 10px; /* Add some space between the image and the text */
+  vertical-align: middle; /* Align the image with the text */
+}
 .navbar-logo .logo-link {
   font-size: 24px;
   font-weight: bold;
-  color: #333333; /* Dark text color */
+  color: #4276e7; /* Dark text color */
   text-decoration: none;
   margin-right: auto;  /* Pushes all other items to the right */
 }
