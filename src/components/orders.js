@@ -9,7 +9,7 @@ const Order = () => {
   const queryParams = new URLSearchParams(location.search);
   const username = queryParams.get('username'); // Extract username from URL
   const [orders, setOrders] = useState([]);
-
+  const [notification, setNotification] = useState('');
   useEffect(() => {
     // Fetch user's orders when the component is mounted
     if (username) {
@@ -30,25 +30,40 @@ const Order = () => {
       return total + products[productName].quantity * products[productName].productPrice;
     }, 0);
   };
+  
 
   // Function to handle cancel order
-  const handleCancelOrder = (orderId) => {
-    axios
-      .delete(`http://localhost:8080/smarthomes_backend/cancel_order?orderId=${orderId}`)
-      .then((response) => {
-        // Remove the canceled order from the state
-        setOrders(orders.filter(order => order.orderId !== orderId));
-        alert('Order canceled successfully');
-      })
-      .catch((error) => {
-        console.error('Error canceling order:', error);
-      });
-  };
+  // Function to handle cancel order
+const handleCancelOrder = async (orderId) => {
+  try {
+    const response = await axios.delete('http://localhost:8080/smarthomes_backend/cancel_order', {
+      data: {
+        orderId: orderId, // Pass orderId in the body
+      },
+    });
+    if (response.status === 200) {
+      setOrders(orders.filter((order) => order.orderId !== orderId));
+      showNotification('Order canceled successfully');
+    }
+  } catch (error) {
+    console.error('Error canceling order:', error);
+  }
+};
+
+const showNotification = (message) => {
+  setNotification(message);
+  setTimeout(() => {
+    setNotification(''); // Clear notification after 2 seconds
+  }, 2000);
+};
+
 
   return (
     <div className="order-container">
+      
       <Navbar username={username} />
       <h2>Your Orders</h2>
+      
       {orders.length === 0 ? (
         <p>No orders found.</p>
       ) : (
@@ -94,13 +109,20 @@ const Order = () => {
                   <p><strong>Store Location:</strong> {order.storeLocation}</p>
                 )}
               </div>
+              
 
               {/* Add the Cancel Order button */}
               <button className="cancel-order-button" onClick={() => handleCancelOrder(order.orderId)}>
                 Cancel Order
               </button>
             </div>
+           
           ))}
+        </div>
+      )}
+      {notification && (
+        <div className="notification">
+          <p>{notification}</p>
         </div>
       )}
     </div>
